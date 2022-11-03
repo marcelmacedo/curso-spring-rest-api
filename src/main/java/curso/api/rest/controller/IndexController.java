@@ -49,10 +49,13 @@ public class IndexController {
 	/*Serviço RESTfull*/
 	@GetMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+		return usuarioRepository.findById(id)
+//				.map(usuario -> ResponseEntity.ok(usuario)) // Se encontrou registro retorna objeto
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build()); // Retorna objeto não encontrado (not found).
 		
-		Optional<Usuario> usuario = usuarioRepository.findById(id);
-		
-		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
+//		Optional<Usuario> usuario = usuarioRepository.findById(id);
+//		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/", produces = "application/json")
@@ -65,19 +68,21 @@ public class IndexController {
 	
 	@PostMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario){
-		
+		// Varre a lista de telefones, amarra os telefones ao usuario.
+		// Realiza a associação da tabela filha p	ara o pai.
 		for(int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
 		
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
-		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK);
+		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario){
-		
+		// Varre a lista de telefones, amarra os telefones ao usuario.
+		// Realiza a associação da tabela filha p	ara o pai.
 		for(int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}

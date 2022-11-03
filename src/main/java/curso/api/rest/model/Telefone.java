@@ -19,7 +19,7 @@ public class Telefone {
 	
 	@JsonIgnore /* Evita recursividade de dados do JSON */
 	@org.hibernate.annotations.ForeignKey(name = "usuario_id")
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false) // Cria uma restricao NOT NULL  no banco de dados que e obrigatorio ter um pai
 	private Usuario usuario;
 
 	public long getId() {
