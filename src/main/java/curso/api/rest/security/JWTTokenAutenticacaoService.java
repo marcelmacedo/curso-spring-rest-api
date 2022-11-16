@@ -1,12 +1,12 @@
 package curso.api.rest.security;
 
+import java.io.IOException;
 import java.util.Date;
 
-import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.config.annotation.rsocket.RSocketSecurity.JwtSpec;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,7 @@ public class JWTTokenAutenticacaoService {
 	/* Gerando token de autenticacao e adicionando resposta ao HEADER como resposta HTTP */
 	/* O HttpServletRequest representa a requisição do cliente e contém as informações ao seu respeito. 
 	 * O HttpServletResponse representa a resposta do Servlet, */
-	public void addAutentication(HttpServletResponse response, String username) throws Exception {
+	public void addAutentication(HttpServletResponse response, String username) throws IOException {
 		
 		/* Montagem do Token */
 		String JWT = Jwts.builder() /* Chama gerador de token */
@@ -76,20 +76,14 @@ public class JWTTokenAutenticacaoService {
 				
 				/* Retornar usuario logado */
 				if(usuario != null) {
-					
-				}else {
-					return null; /*Usuario nao autorizado*/
+					return new UsernamePasswordAuthenticationToken(
+							usuario.getLogin(), 
+							usuario.getSenha(), 
+							usuario.getAuthorities());
 				}
-				
-			}else {
-				return null; /*Usuario nao autorizado*/
 			}
-			
-		}else {
-			return null; /* Nao autorizado */
 		}
+		
+		return null; /* Nao autorizado */
 	}
-	
-	
-	
 }
