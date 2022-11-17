@@ -24,6 +24,8 @@ public class CursospringrestapiApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursospringrestapiApplication.class, args);
+		/* Gerar senha no console para teste de login e senha com JWT*/
+		//System.out.println(new BCryptPasswordEncoder().encode("123"));
 	}
 	
 	/*Controle mapeamento global para restringir acesso a API*/
