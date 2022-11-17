@@ -93,6 +93,16 @@ public class IndexController {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
 		
+		/* Obtem login do usuario para verificar se as senhas sao diferentes */
+		Usuario userTemporario = usuarioRepository.findUserByLogin(usuario.getLogin());
+
+		/* Se senha diferentes, criptrografa nova senha usuario */
+		if(!userTemporario.getSenha().equals(usuario.getSenha())) {
+			String senhaCriptografada = new BCryptPasswordEncoder().encode(usuario.getSenha());
+			usuario.setSenha(senhaCriptografada);
+		}
+		
+		/* Atualiza dados */
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK);
