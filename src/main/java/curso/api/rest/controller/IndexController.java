@@ -46,18 +46,25 @@ public class IndexController {
 		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
 	}
 		
-	
 	/*Serviço RESTfull*/
-	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> init(@PathVariable(value = "id") Long id) {
+	@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v1")
+	public ResponseEntity<Usuario> initV1(@PathVariable(value = "id") Long id) {
 		return usuarioRepository.findById(id)
 //				.map(usuario -> ResponseEntity.ok(usuario)) // Se encontrou registro retorna objeto
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build()); // Retorna objeto não encontrado (not found).
-		
-//		Optional<Usuario> usuario = usuarioRepository.findById(id);
-//		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
+
 	}
+
+	/*Serviço RESTfull*/
+	@GetMapping(value = "/{id}", produces = "application/json", headers = "X-API-Version=v2")
+	public ResponseEntity<Usuario> initV2(@PathVariable(value = "id") Long id) {
+		//return usuarioRepository.findById(id).map(usuario -> ResponseEntity.ok(usuario)) // Se encontrou registro retorna objeto
+
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		return new ResponseEntity<Usuario>(usuario.get(), HttpStatus.OK);
+	}
+	
 	
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> usuario(){
