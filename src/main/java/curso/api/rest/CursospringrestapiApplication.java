@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -12,14 +13,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication													// Saber que é uma aplicação SpringBoot iniciar os recursos
-@EntityScan(basePackages = {"curso.api.rest.model"})					// Varer as pastas de Model.
-@ComponentScan(basePackages = {"curso.*"})								// Vare todas as pastas que tem no projeto
-@EnableJpaRepositories(basePackages = {"curso.api.rest.repository"})	// Local do repository, interfaces de persistencias
-@EnableTransactionManagement   											// Controla transação no banco de dados.
-@EnableWebMvc 															// Habilita recursos MVC
-@RestController															// O projeto roda rest controller e retorna Json.
-@EnableAutoConfiguration												// Spring configura todo projeto
+@SpringBootApplication													/* Saber que é uma aplicação SpringBoot iniciar os recursos */
+@EntityScan(basePackages = {"curso.api.rest.model"})					/* Varer as pastas de Model. */
+@ComponentScan(basePackages = {"curso.*"})								/* Vare todas as pastas que tem no projeto */
+@EnableJpaRepositories(basePackages = {"curso.api.rest.repository"})	/* Local do repository, interfaces de persistencias */
+@EnableTransactionManagement   											/* Controla transação no banco de dados. */
+@EnableWebMvc 															/* Habilita recursos MVC */
+@RestController															/* O projeto roda rest controller e retorna Json. */
+@EnableAutoConfiguration												/* Spring configura todo projeto */
+@EnableCaching															/* Habilita o cache no projeto */
 public class CursospringrestapiApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
