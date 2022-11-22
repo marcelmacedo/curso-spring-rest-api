@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc 															/* Habilita recursos MVC */
 @RestController															/* O projeto roda rest controller e retorna Json. */
 @EnableAutoConfiguration												/* Spring configura todo projeto */
-@EnableCaching															/* Habilita o cache no projeto */
+@EnableCaching
 public class CursospringrestapiApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {

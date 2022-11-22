@@ -40,7 +40,6 @@ public class IndexController {
 	
 	/*Serviço RESTfull*/
 	@GetMapping(value = "/{id}/relatoriopdf", produces = "application/pdf")
-	@Cacheable("cacheusuarios") /* Habilita o cache para este end point */
 	public ResponseEntity<Usuario> relatorio(@PathVariable(value = "id") Long id) {
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
@@ -69,6 +68,7 @@ public class IndexController {
 	
 	
 	@GetMapping(value = "/", produces = "application/json")
+	@Cacheable("cacheusuarios")
 	public ResponseEntity<List<Usuario>> usuario(){
 		
 		List<Usuario> list = (List<Usuario>) usuarioRepository.findAll();
@@ -88,7 +88,7 @@ public class IndexController {
 		String senhaCriptografada = new BCryptPasswordEncoder().encode(usuario.getSenha());
 		usuario.setSenha(senhaCriptografada);
 
-		/* Salva dados do usuario*/
+		/* Salva dados do usuario */
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.CREATED);
@@ -96,8 +96,8 @@ public class IndexController {
 	
 	@PutMapping(value = "/", produces = "application/json")
 	public ResponseEntity<Usuario> atualizar(@RequestBody Usuario usuario){
-		// Varre a lista de telefones, amarra os telefones ao usuario.
-		// Realiza a associação da tabela filha p	ara o pai.
+		/* Varre a lista de telefones, amarra os telefones ao usuario. */
+		/* Realiza a associação da tabela filha p	ara o pai. */
 		for(int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
